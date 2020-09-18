@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y \
   libnss3-tools \
   openssl \
   vim \
+  lsof \
   watch
 
 #RUN mkdir /etc/nginx/certs \
