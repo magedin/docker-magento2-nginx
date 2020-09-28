@@ -1,8 +1,19 @@
 FROM nginx:1.19
 MAINTAINER MagedIn Technology <support@magedin.com>
 
-RUN groupadd -g 1000 app \
- && useradd -g 1000 -u 1000 -d /var/www -s /bin/bash app
+
+# ENVIRONMENT VARIABLES ------------------------------------------------------------------------------------------------
+
+ENV APP_ROOT /var/www/html
+ENV APP_HOME /var/www
+ENV APP_USER www
+ENV APP_GROUP www
+
+
+# BASE INSTALLATION ----------------------------------------------------------------------------------------------------
+
+RUN groupadd -g 1000 ${APP_USER} \
+ && useradd -g 1000 -u 1000 -d ${APP_HOME} -s /bin/bash ${APP_GROUP}
 
 RUN touch /var/run/nginx.pid
 RUN mkdir /sock
@@ -24,14 +35,15 @@ RUN ( \
   && chmod +x mkcert \
 )
 
+
+# BASE CONFIGURATION ---------------------------------------------------------------------------------------------------
+
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 COPY ./conf/conf.d/* /etc/nginx/conf.d/
 
-RUN mkdir -p /etc/nginx/html /var/www/html \
-  && chown -R app:app /etc/nginx /var/www /var/cache/nginx /var/run/nginx.pid /sock
+RUN mkdir -p /etc/nginx/html ${APP_ROOT} \
+  && chown -R ${APP_USER}:${APP_GROUP} /etc/nginx ${APP_HOME} /var/cache/nginx /var/run/nginx.pid /sock
 
-USER app:app
+VOLUME ${APP_HOME}
 
-VOLUME /var/www
-
-WORKDIR /var/www/html
+WORKDIR ${APP_ROOT}
