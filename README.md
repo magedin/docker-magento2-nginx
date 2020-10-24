@@ -8,7 +8,7 @@
   <a href="https://hub.docker.com/r/magedin/nginx" target="_blank">
     <img src="https://img.shields.io/docker/pulls/magedin/nginx?color=blue&style=for-the-badge"/>
   </a>
-  <a href="https://hub.docker.com/r/magedin/magento2-php" target="_blank">
+  <a href="https://hub.docker.com/r/magedin/nginx" target="_blank">
     <img src="https://img.shields.io/docker/cloud/build/magedin/nginx?color=blue&style=for-the-badge"/>
   </a>
 </div>
