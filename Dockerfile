@@ -1,4 +1,4 @@
-FROM nginx:1.18
+FROM nginx:1.17
 MAINTAINER MagedIn Technology <support@magedin.com>
 
 
