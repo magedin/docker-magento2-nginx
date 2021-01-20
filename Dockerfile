@@ -4,10 +4,13 @@ MAINTAINER MagedIn Technology <support@magedin.com>
 
 # ENVIRONMENT VARIABLES ------------------------------------------------------------------------------------------------
 
-ENV APP_ROOT /var/www/html
-ENV APP_HOME /var/www
-ENV APP_USER www
-ENV APP_GROUP www
+ENV APP_USER   www
+ENV APP_GROUP  ${APP_USER}
+ENV APP_HOME   /var/${APP_USER}
+ENV APP_ROOT   ${APP_HOME}/html
+
+ENV SSL_CA_DIR ${APP_HOME}/ssl/ca
+ENV CAROOT     ${SSL_CA_DIR}
 
 
 # BASE INSTALLATION ----------------------------------------------------------------------------------------------------
@@ -31,7 +34,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN ( \
   cd /usr/local/bin/ \
-  && curl -L https://github.com/FiloSottile/mkcert/releases/download/v1.4.1/mkcert-v1.4.1-linux-amd64 -o mkcert \
+  && curl -L https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64 -o mkcert \
   && chmod +x mkcert \
 )
 
