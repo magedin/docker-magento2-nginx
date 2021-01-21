@@ -4,13 +4,15 @@ MAINTAINER MagedIn Technology <support@magedin.com>
 
 # ENVIRONMENT VARIABLES ------------------------------------------------------------------------------------------------
 
-ENV APP_USER   www
-ENV APP_GROUP  ${APP_USER}
-ENV APP_HOME   /var/${APP_USER}
-ENV APP_ROOT   ${APP_HOME}/html
+ENV APP_USER     www
+ENV APP_GROUP    ${APP_USER}
+ENV APP_HOME     /var/${APP_USER}
+ENV APP_ROOT     ${APP_HOME}/html
 
-ENV SSL_CA_DIR ${APP_HOME}/ssl/ca
-ENV CAROOT     ${SSL_CA_DIR}
+ENV SSL_DIR      ${APP_HOME}/ssl
+ENV SSL_CA_DIR   ${SSL_DIR}/ca
+ENV SSL_CERT_DIR ${SSL_DIR}/certificates
+ENV CAROOT       ${SSL_CA_DIR}
 
 
 # BASE INSTALLATION ----------------------------------------------------------------------------------------------------
@@ -34,7 +36,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN ( \
   cd /usr/local/bin/ \
-  && curl -L https://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64 -o mkcert \
+  && curl -Lk http://github.com/FiloSottile/mkcert/releases/download/v1.4.3/mkcert-v1.4.3-linux-amd64 -o mkcert \
   && chmod +x mkcert \
 )
 
@@ -44,8 +46,19 @@ RUN ( \
 COPY ./conf/nginx.conf /etc/nginx/nginx.conf
 COPY ./conf/conf.d/* /etc/nginx/conf.d/
 
-RUN mkdir -p /etc/nginx/html ${APP_ROOT} \
-  && chown -R ${APP_USER}:${APP_GROUP} /etc/nginx ${APP_HOME} /var/cache/nginx /var/run/nginx.pid /sock
+RUN mkdir -p /etc/nginx/html \
+  ${APP_ROOT} \
+  ${SSL_CA_DIR} \
+  ${SSL_CERT_DIR}
+
+RUN chown -R ${APP_USER}:${APP_GROUP} \
+  /etc/nginx \
+  ${APP_HOME} \
+  ${SSL_CA_DIR} \
+  ${SSL_CERT_DIR} \
+  /var/cache/nginx \
+  /var/run/nginx.pid \
+  /sock
 
 VOLUME ${APP_HOME}
 
