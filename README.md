@@ -3,7 +3,7 @@
 <div align="center">
   <h4>MagedIn's docker for running a NGinx installation.</h4>
   <a href="https://nginx.org" target="_blank">
-    <img src="https://img.shields.io/badge/nginx-1.19-green?style=for-the-badge&logo=nginx"/>
+    <img src="https://img.shields.io/badge/nginx-1.20-green?style=for-the-badge&logo=nginx"/>
   </a>
   <a href="https://hub.docker.com/r/magedin/nginx" target="_blank">
     <img src="https://img.shields.io/docker/pulls/magedin/nginx?color=blue&style=for-the-badge"/>
